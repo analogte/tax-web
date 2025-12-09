@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คลังความรู้ภาษี - ภาษีเรื่องง่าย</title>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Base styles -->
+    <link rel="stylesheet" href="css/knowledge.css"> <!-- Specific styles -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head>
+
+<body class="knowledge-body">
+
+    <!-- Navigation -->
+    <nav class="knowledge-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <span>🔙 ภาษีเรื่องง่าย</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">หน้าแรก</a>
+                <a href="#" class="active">คลังความรู้</a>
+                <a href="#">โหมดธุรกิจ (เร็วๆนี้)</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="knowledge-container">
+        <!-- Sidebar -->
+        <aside class="knowledge-sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">เริ่มต้นเรียนรู้</h3>
+                <a href="#" class="sidebar-link active" data-topic="intro"
+                    onclick="KnowledgeApp.loadTopic('intro', event)">👋 ภาพรวมภาษี</a>
+                <a href="#" class="sidebar-link" data-topic="income-types"
+                    onclick="KnowledgeApp.loadTopic('income-types', event)">💼 ประเภทเงินได้ 40(1)-(8)</a>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">เตรียมตัวยื่นภาษี</h3>
+                <a href="#" class="sidebar-link" data-topic="docs" onclick="KnowledgeApp.loadTopic('docs', event)">📄
+                    เอกสารที่ต้องใช้</a>
+                <a href="#" class="sidebar-link" data-topic="deductions"
+                    onclick="KnowledgeApp.loadTopic('deductions', event)">📉 ค่าลดหย่อน</a>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">เครื่องมือช่วย</h3>
+                <a href="#" class="sidebar-link" data-topic="funds" onclick="KnowledgeApp.loadTopic('funds', event)">💰
+                    ลงทุนกองทุน (SSF/RMF)</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="knowledge-content">
+            <header class="article-header">
+                <h1 id="articleTitle" class="article-title">กำลังโหลด...</h1>
+                <div class="article-meta">อัปเดตล่าสุด: ปีภาษี 2567</div>
+            </header>
+            <div id="articleBody" class="article-body">
+                <!-- Content injected by JS -->
+            </div>
+        </main>
+    </div>
+
+    <script src="js/knowledge.js"></script>
+</body>
+
+</html>

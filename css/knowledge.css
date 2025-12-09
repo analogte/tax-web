@@ -1,0 +1,219 @@
+/* Knowledge Hub Styles */
+
+:root {
+    --knowledge-primary: #00A651;
+    --knowledge-bg: #f9fafb;
+    --knowledge-surface: #ffffff;
+    --knowledge-text: #1f2937;
+    --knowledge-text-muted: #6b7280;
+    --knowledge-border: #e5e7eb;
+}
+
+body.knowledge-body {
+    background-color: var(--knowledge-bg);
+}
+
+/* Header & Nav */
+.knowledge-nav {
+    background: var(--knowledge-surface);
+    border-bottom: 1px solid var(--knowledge-border);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo a {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--knowledge-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-links a {
+    color: var(--knowledge-text);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 1.5rem;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--knowledge-primary);
+}
+
+/* Main Layout */
+.knowledge-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+}
+
+/* Sidebar */
+.knowledge-sidebar {
+    position: sticky;
+    top: 100px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+
+.sidebar-section {
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--knowledge-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.25rem;
+    color: var(--knowledge-text);
+    text-decoration: none;
+    border-radius: 0.375rem;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.sidebar-link:hover {
+    background-color: #f3f4f6;
+    color: var(--knowledge-primary);
+}
+
+.sidebar-link.active {
+    background-color: #ecfdf5;
+    color: var(--knowledge-primary);
+    font-weight: 600;
+}
+
+/* Content Area */
+.knowledge-content {
+    background: var(--knowledge-surface);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    min-height: 600px;
+}
+
+.article-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--knowledge-border);
+    padding-bottom: 1rem;
+}
+
+.article-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--knowledge-text);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.article-meta {
+    color: var(--knowledge-text-muted);
+    font-size: 0.9rem;
+}
+
+.article-body {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: #374151;
+}
+
+.article-body h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--knowledge-text);
+}
+
+.article-body h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.article-body ul,
+.article-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.article-body li {
+    margin-bottom: 0.5rem;
+}
+
+/* Comparisons Table */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 1rem;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 1rem;
+    border: 1px solid var(--knowledge-border);
+    text-align: left;
+}
+
+.comparison-table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: var(--knowledge-text);
+}
+
+.comparison-table tr:hover td {
+    background-color: #f3f4f6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .knowledge-container {
+        grid-template-columns: 1fr;
+    }
+
+    .knowledge-sidebar {
+        display: none;
+        /* Mobile menu needed separately or stick to top */
+        /* For MVP: Sidebar disappears, we can add a mobile dropdown later */
+    }
+
+    .knowledge-content {
+        padding: 1.5rem;
+    }
+
+    .article-title {
+        font-size: 1.75rem;
+    }
+}
