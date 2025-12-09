@@ -1,0 +1,578 @@
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+/* Tablets (768px and up) */
+@media (max-width: 768px) {
+    .app-title {
+        font-size: 2.5rem;
+    }
+
+    .app-subtitle {
+        font-size: 1.25rem;
+    }
+
+    .cover-features {
+        gap: var(--spacing-md);
+    }
+
+    .feature-item {
+        gap: var(--spacing-md);
+        font-size: 0.95rem;
+    }
+
+    .feature-icon {
+        font-size: 1.25rem;
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .summary-value {
+        font-size: 1rem;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons .btn {
+        min-width: auto;
+    }
+}
+
+/* Mobile (480px and up) */
+@media (max-width: 480px) {
+    :root {
+        font-size: 14px;
+    }
+
+    .cover-container {
+        padding: var(--spacing-lg);
+    }
+
+    .cover-content {
+        max-width: 100%;
+    }
+
+    .app-title {
+        font-size: 2rem;
+    }
+
+    .app-subtitle {
+        font-size: 1rem;
+    }
+
+    .cover-description {
+        font-size: 0.95rem;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .cover-features {
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .feature-item {
+        font-size: 0.9rem;
+        gap: var(--spacing-md);
+    }
+
+    .btn-large {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 1rem;
+    }
+
+    .calc-header {
+        padding: var(--spacing-md);
+    }
+
+    .calc-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .calc-content {
+        padding: var(--spacing-md);
+    }
+
+    .chart-header {
+        padding: var(--spacing-md);
+    }
+
+    .chart-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .chart-content {
+        padding: var(--spacing-md);
+    }
+
+    .card {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .card-header {
+        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+    }
+
+    .card-header h3 {
+        font-size: 1rem;
+    }
+
+    .card-content {
+        padding: var(--spacing-md);
+        gap: var(--spacing-md);
+    }
+
+    .card-icon {
+        font-size: 1.5rem;
+    }
+
+    .card-text h4 {
+        font-size: 0.95rem;
+    }
+
+    .card-text p {
+        font-size: 0.8rem;
+    }
+
+    .section {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .section-title {
+        font-size: 1rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .income-type-cards {
+        gap: var(--spacing-sm);
+    }
+
+    .income-type-card {
+        padding: var(--spacing-md);
+    }
+
+    .income-checkbox {
+        width: 18px;
+        height: 18px;
+        margin-right: var(--spacing-md);
+    }
+
+    .income-input-group {
+        margin-bottom: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+
+    .input-label {
+        font-size: 0.9rem;
+    }
+
+    .input-label-small {
+        font-size: 0.85rem;
+    }
+
+    .slider-container {
+        gap: var(--spacing-sm);
+    }
+
+    .number-input {
+        width: 100px;
+        padding: var(--spacing-sm);
+        font-size: 0.9rem;
+    }
+
+    .number-input-small {
+        width: 50px;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.8rem;
+    }
+
+    .allowance-group {
+        margin-bottom: var(--spacing-lg);
+        padding: var(--spacing-md);
+    }
+
+    .allowance-group-title {
+        font-size: 0.9rem;
+    }
+
+    .allowance-item {
+        padding: var(--spacing-sm) 0;
+    }
+
+    .checkbox-label {
+        gap: var(--spacing-sm);
+        font-size: 0.9rem;
+    }
+
+    .allowance-checkbox {
+        width: 16px;
+        height: 16px;
+    }
+
+    .allowance-amount {
+        font-size: 0.85rem;
+    }
+
+    .equation {
+        gap: var(--spacing-sm);
+    }
+
+    .equation-item {
+        padding: var(--spacing-sm);
+        min-width: 80px;
+    }
+
+    .equation-label {
+        font-size: 0.65rem;
+    }
+
+    .equation-value {
+        font-size: 0.95rem;
+    }
+
+    .equation-operator {
+        font-size: 1rem;
+    }
+
+    .brackets-table {
+        font-size: 0.8rem;
+    }
+
+    .brackets-table th,
+    .brackets-table td {
+        padding: var(--spacing-sm);
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: var(--spacing-md);
+    }
+
+    .summary-label {
+        font-size: 0.7rem;
+    }
+
+    .summary-value {
+        font-size: 0.95rem;
+    }
+
+    .breakdown-table {
+        font-size: 0.8rem;
+    }
+
+    .breakdown-table td {
+        padding: var(--spacing-sm);
+    }
+
+    .action-buttons {
+        gap: var(--spacing-sm);
+        flex-direction: column;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+    }
+
+    .btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 0.95rem;
+    }
+
+    .btn-back {
+        padding: var(--spacing-sm);
+    }
+
+    .back-text {
+        display: none;
+    }
+
+    .back-icon {
+        font-size: 1.1rem;
+    }
+
+    .result-label {
+        font-size: 0.9rem;
+    }
+
+    .result-value {
+        font-size: 1.1rem;
+    }
+
+    .result-value.highlight {
+        font-size: 1.25rem;
+    }
+
+    .tax-result-body {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .result-row {
+        padding: var(--spacing-sm) 0;
+    }
+}
+
+/* Extra Small Mobile (320px and up) */
+@media (max-width: 320px) {
+    :root {
+        font-size: 12px;
+    }
+
+    .app-title {
+        font-size: 1.5rem;
+    }
+
+    .app-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .cover-description {
+        font-size: 0.85rem;
+    }
+
+    .feature-item {
+        font-size: 0.8rem;
+    }
+
+    .feature-icon {
+        font-size: 1rem;
+    }
+
+    .equation-item {
+        min-width: 70px;
+    }
+
+    .number-input {
+        width: 80px;
+    }
+
+    .number-input-small {
+        width: 45px;
+    }
+}
+
+/* Landscape Orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+    .cover-container {
+        min-height: auto;
+        padding: var(--spacing-md);
+    }
+
+    .cover-header {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .app-title {
+        font-size: 2rem;
+    }
+
+    .app-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .cover-description {
+        margin-bottom: var(--spacing-lg);
+        font-size: 0.9rem;
+    }
+
+    .cover-features {
+        margin-bottom: var(--spacing-lg);
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .feature-item {
+        flex: 0 0 calc(50% - var(--spacing-sm));
+        font-size: 0.85rem;
+    }
+
+    .btn-large {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 0.95rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background-color: white;
+    }
+
+    .btn-back,
+    .btn-primary,
+    .btn-secondary,
+    #startBtn,
+    #viewChartBtn,
+    #backBtn,
+    #backFromChartBtn {
+        display: none;
+    }
+
+    .card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .chart-canvas {
+        max-width: 100%;
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --surface: #1f2937;
+        --surface-variant: #374151;
+        --surface-dark: #111827;
+        --text: #f3f4f6;
+        --text-secondary: #d1d5db;
+        --text-muted: #9ca3af;
+    }
+
+    body {
+        background-color: var(--surface-dark);
+        color: var(--text);
+    }
+
+    .card {
+        background-color: var(--surface);
+        border-color: var(--surface-variant);
+    }
+
+    .income-type-card {
+        background-color: var(--surface);
+        border-color: var(--surface-variant);
+    }
+
+    .income-type-card:hover {
+        background-color: var(--surface-variant);
+    }
+
+    .income-input-group {
+        background-color: var(--surface-variant);
+    }
+
+    .allowance-group {
+        background-color: var(--surface-variant);
+    }
+
+    .equation-card {
+        background-color: var(--surface-variant);
+        border-color: var(--primary);
+    }
+
+    .equation-item {
+        background-color: var(--surface);
+    }
+
+    .number-input {
+        background-color: var(--surface);
+        color: var(--text);
+        border-color: var(--surface-variant);
+    }
+
+    .number-input:focus {
+        border-color: var(--primary);
+    }
+
+    .number-input-small {
+        background-color: var(--surface);
+        color: var(--text);
+        border-color: var(--surface-variant);
+    }
+
+    .number-input-small:disabled {
+        background-color: var(--surface-variant);
+        color: var(--text-muted);
+    }
+
+    .brackets-table thead {
+        background-color: var(--surface-variant);
+    }
+
+    .brackets-table tbody tr:hover {
+        background-color: var(--surface-variant);
+    }
+
+    .summary-card {
+        background-color: var(--surface);
+        border-color: var(--surface-variant);
+    }
+
+    .breakdown-table tr:hover {
+        background-color: var(--surface-variant);
+    }
+
+    .btn-secondary {
+        background-color: var(--surface-variant);
+        color: var(--text);
+        border-color: var(--surface-variant);
+    }
+
+    .btn-secondary:hover {
+        background-color: #4b5563;
+    }
+
+    .btn-back {
+        color: var(--text);
+    }
+
+    .btn-back:hover {
+        color: var(--primary);
+    }
+
+    .calc-header,
+    .chart-header {
+        background-color: var(--surface);
+        border-bottom-color: var(--surface-variant);
+    }
+
+    .calc-content,
+    .chart-content {
+        background-color: var(--surface-dark);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .screen {
+        animation: none;
+    }
+}
+
+/* High Contrast */
+@media (prefers-contrast: more) {
+    :root {
+        --primary: #0000ff;
+        --primary-dark: #000080;
+        --success: #008000;
+        --warning: #ff8000;
+        --danger: #ff0000;
+    }
+
+    .card {
+        border-width: 2px;
+    }
+
+    .btn {
+        border-width: 2px;
+    }
+}
