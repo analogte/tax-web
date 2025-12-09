@@ -1,12 +1,12 @@
 /* Knowledge Hub Styles */
 
 :root {
-    --knowledge-primary: #00A651;
-    --knowledge-bg: #f9fafb;
-    --knowledge-surface: #ffffff;
-    --knowledge-text: #1f2937;
+    --knowledge-primary: #ff8e3c;
+    --knowledge-bg: #eff0f3;
+    --knowledge-surface: #fffffe;
+    --knowledge-text: #2a2a2a;
     --knowledge-text-muted: #6b7280;
-    --knowledge-border: #e5e7eb;
+    --knowledge-border: #0d0d0d;
 }
 
 body.knowledge-body {
