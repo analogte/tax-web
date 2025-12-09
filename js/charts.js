@@ -2,6 +2,7 @@
  * Thai Tax Calculator - Chart Rendering
  * Uses HTML5 Canvas for charts
  */
+'use strict';
 
 class ChartManager {
     /**
@@ -133,7 +134,7 @@ class ChartManager {
             ctx.font = '12px Arial';
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(formatNumber(value), padding - 10, y);
+            ctx.fillText(Utils.formatNumber(value), padding - 10, y);
         }
 
         // Draw bars
@@ -158,7 +159,7 @@ class ChartManager {
                 ctx.font = 'bold 10px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
-                ctx.fillText(formatNumber(value), barX + (barWidth - barGap) / 2, barY - 5);
+                ctx.fillText(Utils.formatNumber(value), barX + (barWidth - barGap) / 2, barY - 5);
             });
 
             // X-axis label
@@ -224,7 +225,7 @@ class ChartManager {
             ctx.font = '12px Arial';
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(formatNumber(value), padding - 10, y);
+            ctx.fillText(Utils.formatNumber(value), padding - 10, y);
         }
 
         // Draw lines
@@ -308,7 +309,7 @@ class ChartManager {
 
         bracketTaxes.forEach(bt => {
             const bracket = bt.bracket;
-            const label = `${formatNumber(bracket.minNetIncome)}-${bracket.maxNetIncome === Infinity ? '∞' : formatNumber(bracket.maxNetIncome)}`;
+            const label = `${Utils.formatNumber(bracket.minNetIncome)}-${bracket.maxNetIncome === Infinity ? '∞' : Utils.formatNumber(bracket.maxNetIncome)}`;
             labels.push(label);
             data.push(bt.tax);
         });

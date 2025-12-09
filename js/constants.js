@@ -2,6 +2,8 @@
  * Thai Tax Calculator - Constants
  * Contains all tax-related constants and configuration
  */
+'use strict';
+
 
 const TAX_CONSTANTS = {
     // ============ Income Input Limits ============
@@ -117,12 +119,14 @@ const APP_CONFIG = {
     maxHistoryItems: 50,
     debounceDelay: 300,
 };
-
-export {
-    TAX_CONSTANTS,
-    TAX_BRACKETS,
-    CHART_COLORS,
-    LOCALE,
-    STORAGE_KEYS,
-    APP_CONFIG,
-};
+// Export for use in other modules (Safe for browser)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        TAX_CONSTANTS,
+        TAX_BRACKETS,
+        CHART_COLORS,
+        LOCALE,
+        STORAGE_KEYS,
+        APP_CONFIG,
+    };
+}

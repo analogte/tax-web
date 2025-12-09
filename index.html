@@ -1,436 +1,522 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="โปรแกรมคำนวณภาษีเงินได้บุคคลธรรมดาของไทย ใช้งานง่าย แม่นยำ รองรับการคำนวณลดหย่อนภาษีครบครัน แสดงผลแบบกราฟและรายงาน">
+    <meta name="keywords" content="คำนวณภาษี, ภาษีเงินได้, ลดหย่อนภาษี, ภาษีบุคคลธรรมดา, Thai Tax Calculator">
+    <meta name="author" content="ภาษีเรื่องง่าย">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thaitaxeasy.com/">
+    <meta property="og:title" content="ภาษีเรื่องง่าย - คำนวณภาษีใครๆก็เข้าใจ">
+    <meta property="og:description" content="คำนวณภาษีเงินได้บุคคลธรรมดา ใช้งานง่าย แม่นยำ พร้อมกราฟแสดงผล">
+    <meta property="og:image" content="https://thaitaxeasy.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://thaitaxeasy.com/">
+    <meta property="twitter:title" content="ภาษีเรื่องง่าย - คำนวณภาษีใครๆก็เข้าใจ">
+    <meta property="twitter:description" content="คำนวณภาษีเงินได้บุคคลธรรมดา ใช้งานง่าย แม่นยำ พร้อมกราฟแสดงผล">
+    <meta property="twitter:image" content="https://thaitaxeasy.com/og-image.jpg">
+
     <title>ภาษีเรื่องง่าย - Thai Personal Income Tax Calculator</title>
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
+
 <body>
     <div id="app">
-        <!-- Cover Screen -->
-        <div id="coverScreen" class="screen active">
-            <div class="cover-container">
-                <div class="cover-content">
-                    <div class="cover-header">
-                        <h1 class="app-title">ภาษีเรื่องง่าย</h1>
-                        <p class="app-subtitle">ใครๆก็เข้าใจ</p>
-                    </div>
-                    
-                    <div class="cover-description">
-                        <p>คำนวณภาษีเงินได้บุคคลธรรมชาติของไทย</p>
-                        <p>อย่างง่าย ๆ และเข้าใจได้</p>
-                    </div>
-
-                    <div class="cover-features">
-                        <div class="feature-item">
-                            <span class="feature-icon">📊</span>
-                            <span class="feature-text">คำนวณภาษีแบบเรียลไทม์</span>
+        <main class="main-content">
+            <!-- Cover Screen -->
+            <div id="coverScreen" class="screen active">
+                <div class="cover-container">
+                    <div class="cover-content">
+                        <div class="cover-header">
+                            <h1 class="app-title">ภาษีเรื่องง่าย</h1>
+                            <p class="app-subtitle">ใครๆก็เข้าใจ</p>
                         </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">💰</span>
-                            <span class="feature-text">รองรับรายได้หลายประเภท</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">📈</span>
-                            <span class="feature-text">แสดงกราฟและรายงาน</span>
-                        </div>
-                    </div>
 
-                    <button id="startBtn" class="btn btn-primary btn-large">
-                        เริ่มคำนวณภาษี
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Calculator Screen -->
-        <div id="calculatorScreen" class="screen">
-            <div class="calculator-container">
-                <!-- Header -->
-                <div class="calc-header">
-                    <button id="backBtn" class="btn-back">
-                        <span class="back-icon">←</span>
-                        <span class="back-text">ย้อนกลับ</span>
-                    </button>
-                    <h2>คำนวณภาษี</h2>
-                    <div style="width: 40px;"></div>
-                </div>
-
-                <!-- Main Content -->
-                <div class="calc-content">
-                    <!-- Tax Result Card -->
-                    <div class="card tax-result-card">
-                        <div class="card-header">
-                            <h3>ผลการคำนวณภาษี</h3>
+                        <div class="cover-description">
+                            <p>คำนวณภาษีเงินได้บุคคลธรรมชาติของไทย</p>
+                            <p>อย่างง่าย ๆ และเข้าใจได้</p>
                         </div>
-                        <div class="tax-result-body">
-                            <div class="result-row">
-                                <span class="result-label">เงินได้สุทธิ</span>
-                                <span class="result-value" id="netIncomeDisplay">0 บาท</span>
+
+                        <div class="cover-features">
+                            <div class="feature-item">
+                                <span class="feature-icon">📊</span>
+                                <span class="feature-text">คำนวณภาษีแบบเรียลไทม์</span>
                             </div>
-                            <div class="result-row">
-                                <span class="result-label">ภาษีที่ต้องชำระ</span>
-                                <span class="result-value highlight" id="taxDisplay">0 บาท</span>
+                            <div class="feature-item">
+                                <span class="feature-icon">💰</span>
+                                <span class="feature-text">รองรับรายได้หลายประเภท</span>
                             </div>
-                            <div class="result-row">
-                                <span class="result-label">เงินได้หลังหักภาษี</span>
-                                <span class="result-value" id="netSalaryDisplay">0 บาท</span>
+                            <div class="feature-item">
+                                <span class="feature-icon">📈</span>
+                                <span class="feature-text">แสดงกราฟและรายงาน</span>
                             </div>
                         </div>
-                        <button class="btn btn-secondary btn-block" id="viewChartBtn">
-                            📊 ดูกราฟและรายงาน
+
+                        <button id="startBtn" class="btn btn-primary btn-large">
+                            เริ่มคำนวณภาษี
                         </button>
-                    </div>
-
-                    <!-- Income Type Selection -->
-                    <div class="section">
-                        <h3 class="section-title">คุณมีรายได้จากอะไรบ้าง?</h3>
-                        <p class="section-subtitle">เลือกได้หลายอัน</p>
-                        
-                        <div class="income-type-cards">
-                            <label class="income-type-card">
-                                <input type="checkbox" id="hasSalary" class="income-checkbox" checked>
-                                <div class="card-content">
-                                    <div class="card-icon">💼</div>
-                                    <div class="card-text">
-                                        <h4>พนักงานประจำ</h4>
-                                        <p>เช่น: พนักงานบริษัท, ข้าราชการ, พนักงานห้าง</p>
-                                    </div>
-                                </div>
-                            </label>
-
-                            <label class="income-type-card">
-                                <input type="checkbox" id="hasFreelance" class="income-checkbox">
-                                <div class="card-content">
-                                    <div class="card-icon">💻</div>
-                                    <div class="card-text">
-                                        <h4>ฟรีแลนซ์ / รับจ้าง</h4>
-                                        <p>เช่น: รับออกแบบ, ขับ Grab, ติวเตอร์, ช่างภาพ</p>
-                                    </div>
-                                </div>
-                            </label>
-
-                            <label class="income-type-card">
-                                <input type="checkbox" id="hasMerchant" class="income-checkbox">
-                                <div class="card-content">
-                                    <div class="card-icon">🏪</div>
-                                    <div class="card-text">
-                                        <h4>ค้าขาย / ออนไลน์</h4>
-                                        <p>เช่น: ร้านของชำ, ขายออนไลน์, ตลาดนัด</p>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Income Inputs -->
-                    <div id="incomeInputsSection" class="section" style="display: none;">
-                        <h3 class="section-title">กรอกรายได้ของคุณ</h3>
-                        
-                        <div id="salaryInput" class="income-input-group" style="display: none;">
-                            <label for="salarySlider" class="input-label">
-                                เงินเดือน (ทั้งปี รวมโบนัส)
-                                <span class="input-sublabel">เงินได้ประเภทที่ 1</span>
-                            </label>
-                            <div class="slider-container">
-                                <input type="range" id="salarySlider" class="slider" min="0" max="10000000" step="10000" value="300000">
-                                <input type="number" id="salaryInput" class="number-input" value="300000">
-                                <span class="input-unit">บาท</span>
-                            </div>
-                            <div class="slider-info">
-                                <span class="slider-min">0</span>
-                                <span class="slider-max">10,000,000</span>
-                            </div>
-                        </div>
-
-                        <div id="freelanceInput" class="income-input-group" style="display: none;">
-                            <label for="freelanceSlider" class="input-label">
-                                รายได้ฟรีแลนซ์ / ปี
-                                <span class="input-sublabel">เงินได้ประเภทที่ 2</span>
-                            </label>
-                            <div class="slider-container">
-                                <input type="range" id="freelanceSlider" class="slider" min="0" max="10000000" step="10000" value="0">
-                                <input type="number" id="freelanceInput" class="number-input" value="0">
-                                <span class="input-unit">บาท</span>
-                            </div>
-                            <div class="slider-info">
-                                <span class="slider-min">0</span>
-                                <span class="slider-max">10,000,000</span>
-                            </div>
-                        </div>
-
-                        <div id="merchantInput" class="income-input-group" style="display: none;">
-                            <label for="merchantSlider" class="input-label">
-                                รายได้จากการขาย / ปี
-                                <span class="input-sublabel">เงินได้ประเภทที่ 8</span>
-                            </label>
-                            <div class="slider-container">
-                                <input type="range" id="merchantSlider" class="slider" min="0" max="10000000" step="10000" value="0">
-                                <input type="number" id="merchantInput" class="number-input" value="0">
-                                <span class="input-unit">บาท</span>
-                            </div>
-                            <div class="slider-info">
-                                <span class="slider-min">0</span>
-                                <span class="slider-max">10,000,000</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Allowances Section -->
-                    <div class="section">
-                        <h3 class="section-title">ค่าลดหย่อน</h3>
-                        <p class="section-subtitle">เลือกค่าลดหย่อนที่คุณมี</p>
-
-                        <!-- Personal & Family -->
-                        <div class="allowance-group">
-                            <h4 class="allowance-group-title">ส่วนตัวและครอบครัว</h4>
-                            
-                            <div class="allowance-item">
-                                <label for="spouse" class="checkbox-label">
-                                    <input type="checkbox" id="spouse" class="allowance-checkbox">
-                                    <span>คู่สมรส (ไม่มีรายได้)</span>
-                                </label>
-                                <span class="allowance-amount" data-amount="60000">60,000 บาท</span>
-                            </div>
-
-                            <div class="allowance-item">
-                                <label for="childCount" class="checkbox-label">
-                                    <input type="checkbox" id="childCount" class="allowance-checkbox">
-                                    <span>บุตรก่อนปี 2561</span>
-                                </label>
-                                <div class="allowance-input-group">
-                                    <input type="number" id="childCountInput" class="number-input-small" min="0" max="10" value="0" disabled>
-                                    <span class="allowance-amount" data-amount="30000">30,000 บาท/คน</span>
-                                </div>
-                            </div>
-
-                            <div class="allowance-item">
-                                <label for="childBorn2018" class="checkbox-label">
-                                    <input type="checkbox" id="childBorn2018" class="allowance-checkbox">
-                                    <span>บุตรคนที่ 2+ เกิดปี 2561+</span>
-                                </label>
-                                <div class="allowance-input-group">
-                                    <input type="number" id="childBorn2018Input" class="number-input-small" min="0" max="10" value="0" disabled>
-                                    <span class="allowance-amount" data-amount="60000">60,000 บาท/คน</span>
-                                </div>
-                            </div>
-
-                            <div class="allowance-item">
-                                <label for="parentCount" class="checkbox-label">
-                                    <input type="checkbox" id="parentCount" class="allowance-checkbox">
-                                    <span>บิดามารดา</span>
-                                </label>
-                                <div class="allowance-input-group">
-                                    <input type="number" id="parentCountInput" class="number-input-small" min="0" max="4" value="0" disabled>
-                                    <span class="allowance-amount" data-amount="30000">30,000 บาท/คน</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Insurance & Funds -->
-                        <div class="allowance-group">
-                            <h4 class="allowance-group-title">ประกันและกองทุน</h4>
-                            
-                            <div class="allowance-item">
-                                <label for="lifeInsurance" class="input-label-small">
-                                    ประกันชีวิต (สูงสุด 100,000 บาท)
-                                </label>
-                                <input type="number" id="lifeInsurance" class="number-input" placeholder="0" min="0" max="100000" value="0">
-                            </div>
-
-                            <div class="allowance-item">
-                                <label for="healthInsurance" class="input-label-small">
-                                    ประกันสุขภาพ (สูงสุด 25,000 บาท)
-                                </label>
-                                <input type="number" id="healthInsurance" class="number-input" placeholder="0" min="0" max="25000" value="0">
-                            </div>
-
-                            <div class="allowance-item">
-                                <label for="socialSecurity" class="input-label-small">
-                                    ประกันสังคม (สูงสุด 9,000 บาท)
-                                </label>
-                                <input type="number" id="socialSecurity" class="number-input" placeholder="0" min="0" max="9000" value="0">
-                            </div>
-
-                            <div class="allowance-item">
-                                <label for="pvd" class="input-label-small">
-                                    กองทุนสำรองเลี้ยงชีพ (PVD) (สูงสุด 500,000 บาท)
-                                </label>
-                                <input type="number" id="pvd" class="number-input" placeholder="0" min="0" max="500000" value="0">
-                            </div>
-
-                            <div class="allowance-item">
-                                <label for="rmf" class="input-label-small">
-                                    กองทุน RMF (สูงสุด 500,000 บาท)
-                                </label>
-                                <input type="number" id="rmf" class="number-input" placeholder="0" min="0" max="500000" value="0">
-                            </div>
-
-                            <div class="allowance-item">
-                                <label for="ssf" class="input-label-small">
-                                    กองทุน SSF (สูงสุด 200,000 บาท)
-                                </label>
-                                <input type="number" id="ssf" class="number-input" placeholder="0" min="0" max="200000" value="0">
-                            </div>
-                        </div>
-
-                        <!-- Housing -->
-                        <div class="allowance-group">
-                            <h4 class="allowance-group-title">ที่อยู่อาศัย</h4>
-                            
-                            <div class="allowance-item">
-                                <label for="homeLoanInterest" class="input-label-small">
-                                    ดอกเบี้ยบ้าน (สูงสุด 100,000 บาท)
-                                </label>
-                                <input type="number" id="homeLoanInterest" class="number-input" placeholder="0" min="0" max="100000" value="0">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Net Income Equation -->
-                    <div class="card equation-card">
-                        <div class="equation">
-                            <div class="equation-item">
-                                <span class="equation-label">รายได้</span>
-                                <span class="equation-value" id="eqIncome">0</span>
-                            </div>
-                            <span class="equation-operator">−</span>
-                            <div class="equation-item">
-                                <span class="equation-label">ค่าใช้จ่าย</span>
-                                <span class="equation-value" id="eqExpense">0</span>
-                            </div>
-                            <span class="equation-operator">−</span>
-                            <div class="equation-item">
-                                <span class="equation-label">ค่าลดหย่อน</span>
-                                <span class="equation-value" id="eqAllowance">0</span>
-                            </div>
-                            <span class="equation-operator">=</span>
-                            <div class="equation-item highlight">
-                                <span class="equation-label">เงินได้สุทธิ</span>
-                                <span class="equation-value" id="eqNetIncome">0</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tax Brackets -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>ตารางภาษี</h3>
-                        </div>
-                        <div class="tax-brackets">
-                            <table class="brackets-table">
-                                <thead>
-                                    <tr>
-                                        <th>ช่วงรายได้</th>
-                                        <th>อัตราภาษี</th>
-                                        <th>ภาษี</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="taxBracketsTable">
-                                    <!-- Populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Chart Screen -->
-        <div id="chartScreen" class="screen">
-            <div class="chart-container">
-                <div class="chart-header">
-                    <button id="backFromChartBtn" class="btn-back">
-                        <span class="back-icon">←</span>
-                        <span class="back-text">ย้อนกลับ</span>
-                    </button>
-                    <h2>รายงานและกราฟ</h2>
-                    <div style="width: 40px;"></div>
+            <!-- Calculator Screen -->
+            <div id="calculatorScreen" class="screen">
+                <div class="calculator-container">
+                    <!-- Header -->
+                    <div class="calc-header">
+                        <button id="backBtn" class="btn-back">
+                            <span class="back-icon">←</span>
+                            <span class="back-text">ย้อนกลับ</span>
+                        </button>
+                        <h2>คำนวณภาษี</h2>
+                        <div style="width: 40px;"></div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="calc-content">
+                        <!-- Tax Result Card -->
+                        <div class="card tax-result-card">
+                            <div class="card-header">
+                                <h3>ผลการคำนวณภาษี</h3>
+                            </div>
+                            <div class="tax-result-body">
+                                <div class="result-row">
+                                    <span class="result-label">เงินได้สุทธิ</span>
+                                    <span class="result-value" id="netIncomeDisplay">0 บาท</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-label">ภาษีที่ต้องชำระ</span>
+                                    <span class="result-value highlight" id="taxDisplay">0 บาท</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-label">เงินได้หลังหักภาษี</span>
+                                    <span class="result-value" id="netSalaryDisplay">0 บาท</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary btn-block" id="viewChartBtn">
+                                📊 ดูกราฟและรายงาน
+                            </button>
+                        </div>
+
+                        <!-- Income Type Selection -->
+                        <div class="section">
+                            <h3 class="section-title">คุณมีรายได้จากอะไรบ้าง?</h3>
+                            <p class="section-subtitle">เลือกได้หลายอัน</p>
+
+                            <div class="income-type-cards">
+                                <label class="income-type-card">
+                                    <input type="checkbox" id="hasSalary" class="income-checkbox" checked>
+                                    <div class="card-content">
+                                        <div class="card-icon">💼</div>
+                                        <div class="card-text">
+                                            <h4>พนักงานประจำ</h4>
+                                            <p>เช่น: พนักงานบริษัท, ข้าราชการ, พนักงานห้าง</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="income-type-card">
+                                    <input type="checkbox" id="hasFreelance" class="income-checkbox">
+                                    <div class="card-content">
+                                        <div class="card-icon">💻</div>
+                                        <div class="card-text">
+                                            <h4>ฟรีแลนซ์ / รับจ้าง</h4>
+                                            <p>เช่น: รับออกแบบ, ขับ Grab, ติวเตอร์, ช่างภาพ</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="income-type-card">
+                                    <input type="checkbox" id="hasMerchant" class="income-checkbox">
+                                    <div class="card-content">
+                                        <div class="card-icon">🏪</div>
+                                        <div class="card-text">
+                                            <h4>ค้าขาย / ออนไลน์</h4>
+                                            <p>เช่น: ร้านของชำ, ขายออนไลน์, ตลาดนัด</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Income Inputs -->
+                        <div id="incomeInputsSection" class="section" style="display: none;">
+                            <h3 class="section-title">กรอกรายได้ของคุณ</h3>
+
+                            <div id="salaryInputGroup" class="income-input-group" style="display: none;">
+                                <label for="salarySlider" class="input-label">
+                                    เงินเดือน (ทั้งปี รวมโบนัส)
+                                    <span class="input-sublabel">เงินได้ประเภทที่ 1</span>
+                                </label>
+                                <div class="slider-container">
+                                    <input type="range" id="salarySlider" class="slider" min="0" max="10000000"
+                                        step="10000" value="300000">
+                                    <input type="text" id="salaryInput" class="number-input" value="300,000">
+                                    <span class="input-unit">บาท</span>
+                                </div>
+                                <div class="slider-info">
+                                    <span class="slider-min">0</span>
+                                    <span class="slider-max">10,000,000</span>
+                                </div>
+                            </div>
+
+                            <div id="freelanceInputGroup" class="income-input-group" style="display: none;">
+                                <label for="freelanceSlider" class="input-label">
+                                    รายได้ฟรีแลนซ์ / ปี
+                                    <span class="input-sublabel">เงินได้ประเภทที่ 2</span>
+                                </label>
+                                <div class="slider-container">
+                                    <input type="range" id="freelanceSlider" class="slider" min="0" max="10000000"
+                                        step="10000" value="0">
+                                    <input type="text" id="freelanceInput" class="number-input" value="0">
+                                    <span class="input-unit">บาท</span>
+                                </div>
+                                <div class="slider-info">
+                                    <span class="slider-min">0</span>
+                                    <span class="slider-max">10,000,000</span>
+                                </div>
+                            </div>
+
+                            <div id="merchantInputGroup" class="income-input-group" style="display: none;">
+                                <label for="merchantSlider" class="input-label">
+                                    รายได้จากการขาย / ปี
+                                    <span class="input-sublabel">เงินได้ประเภทที่ 8</span>
+                                </label>
+                                <div class="slider-container">
+                                    <input type="range" id="merchantSlider" class="slider" min="0" max="10000000"
+                                        step="10000" value="0">
+                                    <input type="text" id="merchantInput" class="number-input" value="0">
+                                    <span class="input-unit">บาท</span>
+                                </div>
+                                <div class="slider-info">
+                                    <span class="slider-min">0</span>
+                                    <span class="slider-max">10,000,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Allowances Section -->
+                        <div class="section">
+                            <h3 class="section-title">ค่าลดหย่อน</h3>
+                            <p class="section-subtitle">เลือกค่าลดหย่อนที่คุณมี</p>
+
+                            <!-- Personal & Family -->
+                            <div class="allowance-group">
+                                <h4 class="allowance-group-title">ส่วนตัวและครอบครัว</h4>
+
+                                <div class="allowance-item">
+                                    <label for="spouse" class="checkbox-label">
+                                        <input type="checkbox" id="spouse" class="allowance-checkbox">
+                                        <span>คู่สมรส (ไม่มีรายได้)</span>
+                                    </label>
+                                    <span class="allowance-amount" data-amount="60000">60,000 บาท</span>
+                                </div>
+
+                                <div class="allowance-item">
+                                    <label for="childCount" class="checkbox-label">
+                                        <input type="checkbox" id="childCount" class="allowance-checkbox">
+                                        <span>บุตรก่อนปี 2561</span>
+                                    </label>
+                                    <div class="allowance-input-group">
+                                        <input type="number" id="childCountInput" class="number-input-small" min="0"
+                                            max="10" value="0" disabled>
+                                        <span class="allowance-amount" data-amount="30000">30,000 บาท/คน</span>
+                                    </div>
+                                </div>
+
+                                <div class="allowance-item">
+                                    <label for="childBorn2018" class="checkbox-label">
+                                        <input type="checkbox" id="childBorn2018" class="allowance-checkbox">
+                                        <span>บุตรคนที่ 2+ เกิดปี 2561+</span>
+                                    </label>
+                                    <div class="allowance-input-group">
+                                        <input type="number" id="childBorn2018Input" class="number-input-small" min="0"
+                                            max="10" value="0" disabled>
+                                        <span class="allowance-amount" data-amount="60000">60,000 บาท/คน</span>
+                                    </div>
+                                </div>
+
+                                <div class="allowance-item">
+                                    <label for="parentCount" class="checkbox-label">
+                                        <input type="checkbox" id="parentCount" class="allowance-checkbox">
+                                        <span>บิดามารดา</span>
+                                    </label>
+                                    <div class="allowance-input-group">
+                                        <input type="number" id="parentCountInput" class="number-input-small" min="0"
+                                            max="4" value="0" disabled>
+                                        <span class="allowance-amount" data-amount="30000">30,000 บาท/คน</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Insurance & Funds -->
+                            <div class="allowance-group">
+                                <h4 class="allowance-group-title">ประกันและกองทุน</h4>
+
+                                <div class="allowance-item">
+                                    <label for="lifeInsurance" class="input-label-small">
+                                        ประกันชีวิต (สูงสุด 100,000 บาท)
+                                    </label>
+                                    <input type="text" id="lifeInsurance" class="number-input" placeholder="0"
+                                        value="0">
+                                </div>
+
+                                <div class="allowance-item">
+                                    <label for="healthInsurance" class="input-label-small">
+                                        ประกันสุขภาพ (สูงสุด 25,000 บาท)
+                                    </label>
+                                    <input type="text" id="healthInsurance" class="number-input" placeholder="0"
+                                        value="0">
+                                </div>
+
+                                <div class="allowance-item">
+                                    <label for="socialSecurity" class="input-label-small">
+                                        ประกันสังคม (สูงสุด 9,000 บาท)
+                                    </label>
+                                    <input type="text" id="socialSecurity" class="number-input" placeholder="0"
+                                        value="0">
+                                </div>
+
+                                <div class="allowance-item">
+                                    <label for="pvd" class="input-label-small">
+                                        กองทุนสำรองเลี้ยงชีพ (PVD) (สูงสุด 500,000 บาท)
+                                    </label>
+                                    <input type="text" id="pvd" class="number-input" placeholder="0" value="0">
+                                </div>
+
+                                <div class="allowance-item">
+                                    <label for="rmf" class="input-label-small">
+                                        กองทุน RMF (สูงสุด 500,000 บาท)
+                                    </label>
+                                    <input type="text" id="rmf" class="number-input" placeholder="0" value="0">
+                                </div>
+
+                                <div class="allowance-item">
+                                    <label for="ssf" class="input-label-small">
+                                        กองทุน SSF (สูงสุด 200,000 บาท)
+                                    </label>
+                                    <input type="text" id="ssf" class="number-input" placeholder="0" value="0">
+                                </div>
+                            </div>
+
+                            <!-- Housing -->
+                            <div class="allowance-group">
+                                <h4 class="allowance-group-title">ที่อยู่อาศัย</h4>
+
+                                <div class="allowance-item">
+                                    <label for="homeLoanInterest" class="input-label-small">
+                                        ดอกเบี้ยบ้าน (สูงสุด 100,000 บาท)
+                                    </label>
+                                    <input type="text" id="homeLoanInterest" class="number-input" placeholder="0"
+                                        value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Net Income Equation -->
+                        <div class="card equation-card">
+                            <div class="equation">
+                                <div class="equation-item">
+                                    <span class="equation-label">รายได้</span>
+                                    <span class="equation-value" id="eqIncome">0</span>
+                                </div>
+                                <span class="equation-operator">−</span>
+                                <div class="equation-item">
+                                    <span class="equation-label">ค่าใช้จ่าย</span>
+                                    <span class="equation-value" id="eqExpense">0</span>
+                                </div>
+                                <span class="equation-operator">−</span>
+                                <div class="equation-item">
+                                    <span class="equation-label">ค่าลดหย่อน</span>
+                                    <span class="equation-value" id="eqAllowance">0</span>
+                                </div>
+                                <span class="equation-operator">=</span>
+                                <div class="equation-item highlight">
+                                    <span class="equation-label">เงินได้สุทธิ</span>
+                                    <span class="equation-value" id="eqNetIncome">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tax Brackets -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>ตารางภาษี</h3>
+                            </div>
+                            <div class="tax-brackets">
+                                <table class="brackets-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ช่วงรายได้</th>
+                                            <th>อัตราภาษี</th>
+                                            <th>ภาษี</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="taxBracketsTable">
+                                        <!-- Populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div class="chart-content">
-                    <!-- Summary Cards -->
-                    <div class="summary-cards">
-                        <div class="summary-card">
-                            <div class="summary-label">รายได้รวม</div>
-                            <div class="summary-value" id="chartTotalIncome">0 บาท</div>
-                        </div>
-                        <div class="summary-card">
-                            <div class="summary-label">ค่าใช้จ่าย</div>
-                            <div class="summary-value" id="chartExpense">0 บาท</div>
-                        </div>
-                        <div class="summary-card">
-                            <div class="summary-label">ค่าลดหย่อน</div>
-                            <div class="summary-value" id="chartAllowance">0 บาท</div>
-                        </div>
-                        <div class="summary-card">
-                            <div class="summary-label">เงินได้สุทธิ</div>
-                            <div class="summary-value" id="chartNetIncome">0 บาท</div>
-                        </div>
-                        <div class="summary-card highlight">
-                            <div class="summary-label">ภาษี</div>
-                            <div class="summary-value" id="chartTax">0 บาท</div>
-                        </div>
+            <!-- Chart Screen -->
+            <div id="chartScreen" class="screen">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <button id="backFromChartBtn" class="btn-back">
+                            <span class="back-icon">←</span>
+                            <span class="back-text">ย้อนกลับ</span>
+                        </button>
+                        <h2>รายงานและกราฟ</h2>
+                        <div style="width: 40px;"></div>
                     </div>
 
-                    <!-- Charts -->
-                    <div class="charts-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>การแบ่งรายได้</h3>
+                    <div class="chart-content">
+                        <!-- Summary Cards -->
+                        <div class="summary-cards">
+                            <div class="summary-card">
+                                <div class="summary-label">รายได้รวม</div>
+                                <div class="summary-value" id="chartTotalIncome">0 บาท</div>
                             </div>
-                            <canvas id="incomeChart" class="chart-canvas"></canvas>
+                            <div class="summary-card">
+                                <div class="summary-label">ค่าใช้จ่าย</div>
+                                <div class="summary-value" id="chartExpense">0 บาท</div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-label">ค่าลดหย่อน</div>
+                                <div class="summary-value" id="chartAllowance">0 บาท</div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-label">เงินได้สุทธิ</div>
+                                <div class="summary-value" id="chartNetIncome">0 บาท</div>
+                            </div>
+                            <div class="summary-card highlight">
+                                <div class="summary-label">ภาษี</div>
+                                <div class="summary-value" id="chartTax">0 บาท</div>
+                            </div>
                         </div>
 
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>ภาษีตามช่วงรายได้</h3>
+                        <!-- Charts -->
+                        <div class="charts-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>การแบ่งรายได้</h3>
+                                </div>
+                                <canvas id="incomeChart" class="chart-canvas"></canvas>
                             </div>
-                            <canvas id="taxChart" class="chart-canvas"></canvas>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>ภาษีตามช่วงรายได้</h3>
+                                </div>
+                                <canvas id="taxChart" class="chart-canvas"></canvas>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>เงินได้หลังหักภาษี</h3>
+                                </div>
+                                <canvas id="netSalaryChart" class="chart-canvas"></canvas>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>ค่าลดหย่อนทั้งหมด</h3>
+                                </div>
+                                <canvas id="allowanceChart" class="chart-canvas"></canvas>
+                            </div>
                         </div>
 
+                        <!-- Tax Breakdown Table -->
                         <div class="card">
                             <div class="card-header">
-                                <h3>เงินได้หลังหักภาษี</h3>
+                                <h3>รายละเอียดการคำนวณภาษี</h3>
                             </div>
-                            <canvas id="netSalaryChart" class="chart-canvas"></canvas>
+                            <div class="breakdown-table">
+                                <table>
+                                    <tbody id="taxBreakdownTable">
+                                        <!-- Populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>ค่าลดหย่อนทั้งหมด</h3>
-                            </div>
-                            <canvas id="allowanceChart" class="chart-canvas"></canvas>
+                        <!-- Export Buttons -->
+                        <div class="action-buttons">
+                            <button id="exportPdfBtn" class="btn btn-secondary">
+                                📄 ส่งออก PDF
+                            </button>
+                            <button id="shareBtn" class="btn btn-secondary">
+                                🔗 แชร์ผลลัพธ์
+                            </button>
+                            <button id="saveHistoryBtn" class="btn btn-secondary">
+                                💾 บันทึกประวัติ
+                            </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </main>
 
-                    <!-- Tax Breakdown Table -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>รายละเอียดการคำนวณภาษี</h3>
-                        </div>
-                        <div class="breakdown-table">
-                            <table>
-                                <tbody id="taxBreakdownTable">
-                                    <!-- Populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>ภาษีเรื่องง่าย</h3>
+                    <p>คำนวณภาษีเงินได้บุคคลธรรมดา</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" id="aboutLink" class="footer-link">เกี่ยวกับเรา</a>
+                    <a href="#" class="footer-link">นโยบายความเป็นส่วนตัว</a>
+                    <a href="https://github.com/natthakornballa" target="_blank" class="footer-link">GitHub</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2024 ภาษีเรื่องง่าย. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
 
-                    <!-- Export Buttons -->
-                    <div class="action-buttons">
-                        <button id="exportPdfBtn" class="btn btn-secondary">
-                            📄 ส่งออก PDF
-                        </button>
-                        <button id="shareBtn" class="btn btn-secondary">
-                            🔗 แชร์ผลลัพธ์
-                        </button>
-                        <button id="saveHistoryBtn" class="btn btn-secondary">
-                            💾 บันทึกประวัติ
-                        </button>
+        <!-- About Modal -->
+        <div id="aboutModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>เกี่ยวกับภาษีเรื่องง่าย</h2>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p><strong>ภาษีเรื่องง่าย</strong> คือเครื่องมือช่วยคำนวณภาษีเงินได้บุคคลธรรมดาของไทย
+                        ที่ออกแบบมาให้ใช้งานง่าย เข้าใจได้ทุกคน</p>
+
+                    <h3>ฟีเจอร์หลัก</h3>
+                    <ul>
+                        <li>✨ คำนวณภาษีตามปีภาษีปัจจุบัน</li>
+                        <li>📊 แสดงกราฟและรายงานสรุปผล</li>
+                        <li>💾 บันทึกประวัติการคำนวณ (ในเครื่อง)</li>
+                        <li>📉 รองรับการคำนวณลดหย่อนภาษีครบครัน</li>
+                    </ul>
+
+                    <h3>ผู้พัฒนา</h3>
+                    <p>พัฒนาด้วยความตั้งใจที่จะทำให้เรื่องภาษีเป็นเรื่องง่ายสำหรับทุกคน</p>
+
+                    <div class="modal-contact">
+                        <p>พบปัญหาการใช้งาน หรือมีข้อเสนอแนะ?</p>
+                        <a href="https://github.com/natthakornballa" target="_blank" class="btn btn-outline">แจ้งปัญหาบน
+                            GitHub</a>
                     </div>
                 </div>
             </div>
@@ -446,4 +532,5 @@
     <script src="js/charts.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>

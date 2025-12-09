@@ -1,6 +1,8 @@
 /**
  * Thai Tax Calculator - Core Calculation Logic
  */
+'use strict';
+
 
 class TaxCalculator {
     /**

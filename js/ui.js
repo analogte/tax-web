@@ -1,6 +1,7 @@
 /**
  * Thai Tax Calculator - UI Management
  */
+'use strict';
 
 class UIManager {
     /**
@@ -25,9 +26,9 @@ class UIManager {
      * @param {Object} summary - Tax calculation summary
      */
     static updateTaxResult(summary) {
-        document.getElementById('netIncomeDisplay').textContent = formatCurrency(summary.netIncome);
-        document.getElementById('taxDisplay').textContent = formatCurrency(summary.tax);
-        document.getElementById('netSalaryDisplay').textContent = formatCurrency(summary.netSalary);
+        document.getElementById('netIncomeDisplay').textContent = Utils.formatCurrency(summary.netIncome);
+        document.getElementById('taxDisplay').textContent = Utils.formatCurrency(summary.tax);
+        document.getElementById('netSalaryDisplay').textContent = Utils.formatCurrency(summary.netSalary);
     }
 
     /**
@@ -35,10 +36,10 @@ class UIManager {
      * @param {Object} summary - Tax calculation summary
      */
     static updateEquation(summary) {
-        document.getElementById('eqIncome').textContent = formatNumber(summary.totalIncome);
-        document.getElementById('eqExpense').textContent = formatNumber(summary.expense);
-        document.getElementById('eqAllowance').textContent = formatNumber(summary.allowance);
-        document.getElementById('eqNetIncome').textContent = formatNumber(summary.netIncome);
+        document.getElementById('eqIncome').textContent = Utils.formatNumber(summary.totalIncome);
+        document.getElementById('eqExpense').textContent = Utils.formatNumber(summary.expense);
+        document.getElementById('eqAllowance').textContent = Utils.formatNumber(summary.allowance);
+        document.getElementById('eqNetIncome').textContent = Utils.formatNumber(summary.netIncome);
     }
 
     /**
@@ -59,9 +60,9 @@ class UIManager {
 
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${formatCurrency(bracket.minNetIncome)} - ${bracket.maxNetIncome === Infinity ? 'ขึ้นไป' : formatCurrency(bracket.maxNetIncome)}</td>
-                <td class="bracket-rate">${formatPercentage(bracket.taxRate)}</td>
-                <td class="bracket-tax">${formatCurrency(tax)}</td>
+                <td>${Utils.formatCurrency(bracket.minNetIncome)} - ${bracket.maxNetIncome === Infinity ? 'ขึ้นไป' : Utils.formatCurrency(bracket.maxNetIncome)}</td>
+                <td class="bracket-rate">${Utils.formatPercentage(bracket.taxRate)}</td>
+                <td class="bracket-tax">${Utils.formatCurrency(tax)}</td>
             `;
             tbody.appendChild(row);
         });
@@ -72,11 +73,11 @@ class UIManager {
      * @param {Object} summary - Tax calculation summary
      */
     static updateChartSummary(summary) {
-        document.getElementById('chartTotalIncome').textContent = formatCurrency(summary.totalIncome);
-        document.getElementById('chartExpense').textContent = formatCurrency(summary.expense);
-        document.getElementById('chartAllowance').textContent = formatCurrency(summary.allowance);
-        document.getElementById('chartNetIncome').textContent = formatCurrency(summary.netIncome);
-        document.getElementById('chartTax').textContent = formatCurrency(summary.tax);
+        document.getElementById('chartTotalIncome').textContent = Utils.formatCurrency(summary.totalIncome);
+        document.getElementById('chartExpense').textContent = Utils.formatCurrency(summary.expense);
+        document.getElementById('chartAllowance').textContent = Utils.formatCurrency(summary.allowance);
+        document.getElementById('chartNetIncome').textContent = Utils.formatCurrency(summary.netIncome);
+        document.getElementById('chartTax').textContent = Utils.formatCurrency(summary.tax);
     }
 
     /**
@@ -94,19 +95,19 @@ class UIManager {
             { label: 'เงินได้สุทธิ', value: summary.netIncome, highlight: true },
             { label: 'ภาษี', value: summary.tax, highlight: true },
             { label: 'เงินได้หลังหักภาษี', value: summary.netSalary },
-            { label: 'อัตราภาษีจริง', value: `${formatPercentage(summary.effectiveTaxRate)}` },
+            { label: 'อัตราภาษีจริง', value: `${Utils.formatPercentage(summary.effectiveTaxRate)}` },
         ];
 
         rows.forEach(row => {
             const tr = document.createElement('tr');
             const valueCell = document.createElement('td');
-            
+
             if (typeof row.value === 'string') {
                 valueCell.textContent = row.value;
             } else {
-                valueCell.textContent = formatCurrency(row.value);
+                valueCell.textContent = Utils.formatCurrency(row.value);
             }
-            
+
             if (row.highlight) {
                 valueCell.classList.add('value');
             }
@@ -131,9 +132,9 @@ class UIManager {
         section.style.display = (hasSalary || hasFreelance || hasMerchant) ? 'block' : 'none';
 
         // Show/hide individual inputs
-        document.getElementById('salaryInput').style.display = hasSalary ? 'block' : 'none';
-        document.getElementById('freelanceInput').style.display = hasFreelance ? 'block' : 'none';
-        document.getElementById('merchantInput').style.display = hasMerchant ? 'block' : 'none';
+        document.getElementById('salaryInputGroup').style.display = hasSalary ? 'block' : 'none';
+        document.getElementById('freelanceInputGroup').style.display = hasFreelance ? 'block' : 'none';
+        document.getElementById('merchantInputGroup').style.display = hasMerchant ? 'block' : 'none';
     }
 
     /**
@@ -169,12 +170,39 @@ class UIManager {
 
         // Slider to input
         slider.addEventListener('input', () => {
-            input.value = slider.value;
+            input.value = Utils.formatInputNumber(slider.value);
+            // Trigger input event manually to notify other listeners (like calculation)
+            input.dispatchEvent(new Event('input'));
         });
 
         // Input to slider
         input.addEventListener('input', () => {
-            slider.value = input.value;
+            // Apply formatting
+            const originalSelectionStart = input.selectionStart;
+            const originalValue = input.value;
+
+            const formattedValue = Utils.formatInputNumber(input.value);
+
+            // Only update if changed to avoid cursor jumping issues
+            if (input.value !== formattedValue) {
+                input.value = formattedValue;
+
+                // Try to restore cursor position (simple approximation)
+                // If added comma, shift right. If removed, shift left.
+                // For now, let's just keep it simple as it's a tricky UX problem perfect
+
+                // Adjust cursor
+                const lengthDiff = formattedValue.length - originalValue.length;
+                const newPos = originalSelectionStart + lengthDiff;
+                try {
+                    input.setSelectionRange(newPos, newPos);
+                } catch (e) {
+                    // ignore
+                }
+            }
+
+            const val = Utils.parseInputNumber(input.value);
+            slider.value = val;
         });
     }
 
@@ -222,7 +250,7 @@ class UIManager {
     /**
      * Get element value
      * @param {string} elementId - The element ID
-     * @returns {string|number} The element value
+     * @returns {string|number|boolean} The element value
      */
     static getElementValue(elementId) {
         const element = document.getElementById(elementId);
@@ -234,6 +262,11 @@ class UIManager {
         if (element.type === 'number' || element.type === 'range') {
             return parseFloat(element.value) || 0;
         }
+        // Handle text inputs that should be numbers (formatted)
+        if (element.classList.contains('number-input') && element.type === 'text') {
+            return Utils.parseInputNumber(element.value);
+        }
+
         return element.value;
     }
 
@@ -248,6 +281,8 @@ class UIManager {
 
         if (element.type === 'checkbox') {
             element.checked = Boolean(value);
+        } else if (element.type === 'text' && element.classList.contains('number-input')) {
+            element.value = Utils.formatInputNumber(String(value));
         } else {
             element.value = value;
         }
@@ -316,7 +351,6 @@ class UIManager {
      */
     static showLoading() {
         this.disableAllInputs();
-        // Could add a loading spinner here
     }
 
     /**
@@ -360,9 +394,9 @@ class UIManager {
             hasMerchant: this.getElementValue('hasMerchant'),
 
             // Income amounts
-            salary: this.getElementValue('salarySlider'),
-            freelance: this.getElementValue('freelanceSlider'),
-            merchant: this.getElementValue('merchantSlider'),
+            salary: this.getElementValue('salaryInput'),
+            freelance: this.getElementValue('freelanceInput'),
+            merchant: this.getElementValue('merchantInput'),
 
             // Allowances
             spouse: this.getElementValue('spouse'),
@@ -419,6 +453,37 @@ class UIManager {
         if ('rmf' in data) this.setElementValue('rmf', data.rmf);
         if ('ssf' in data) this.setElementValue('ssf', data.ssf);
         if ('homeLoanInterest' in data) this.setElementValue('homeLoanInterest', data.homeLoanInterest);
+    }
+
+    /**
+     * Show modal
+     * @param {string} modalId - The modal ID
+     */
+    static showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'flex';
+            // Force reflow for animation
+            modal.offsetHeight;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+    }
+
+    /**
+     * Close modal
+     * @param {string} modalId - The modal ID
+     */
+    static closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('active');
+            // Wait for animation
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
     }
 }
 

@@ -2,6 +2,7 @@
  * Thai Tax Calculator - Storage Management
  * Handles LocalStorage and IndexedDB operations
  */
+'use strict';
 
 class StorageManager {
     /**
@@ -12,10 +13,10 @@ class StorageManager {
     static saveCalculation(calculation) {
         try {
             const history = this.getCalculationHistory();
-            
+
             // Add ID and timestamp if not present
             if (!calculation.id) {
-                calculation.id = generateId();
+                calculation.id = Utils.generateId();
             }
             if (!calculation.timestamp) {
                 calculation.timestamp = new Date().toISOString();
@@ -120,7 +121,7 @@ class StorageManager {
     static savePreferences(preferences) {
         try {
             const current = this.getPreferences();
-            const merged = mergeObjects(current, preferences);
+            const merged = Utils.mergeObjects(current, preferences);
             localStorage.setItem(STORAGE_KEYS.userPreferences, JSON.stringify(merged));
             return true;
         } catch (error) {
@@ -152,9 +153,9 @@ class StorageManager {
     static saveNamedCalculation(name, calculation) {
         try {
             const saved = this.getSavedCalculations();
-            
+
             const namedCalc = {
-                id: generateId(),
+                id: Utils.generateId(),
                 name: name,
                 calculation: calculation,
                 timestamp: new Date().toISOString(),

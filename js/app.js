@@ -1,6 +1,7 @@
 /**
  * Thai Tax Calculator - Main Application
  */
+'use strict';
 
 class TaxApp {
     constructor() {
@@ -15,7 +16,7 @@ class TaxApp {
     init() {
         // Check storage availability
         if (!StorageManager.isStorageAvailable()) {
-            showNotification('ระบบจัดเก็บข้อมูลไม่พร้อมใช้งาน', 'warning');
+            Utils.showNotification('ระบบจัดเก็บข้อมูลไม่พร้อมใช้งาน', 'warning');
         }
 
         // Setup event listeners
@@ -92,6 +93,29 @@ class TaxApp {
         UIManager.addInputListener('rmf', () => this.onCalculationChange());
         UIManager.addInputListener('ssf', () => this.onCalculationChange());
         UIManager.addInputListener('homeLoanInterest', () => this.onCalculationChange());
+
+        // Modal listeners
+        UIManager.addClickListener('aboutLink', (e) => {
+            e.preventDefault();
+            UIManager.showModal('aboutModal');
+        });
+
+        // Close modal buttons
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const modal = this.closest('.modal');
+                if (modal) {
+                    UIManager.closeModal(modal.id);
+                }
+            });
+        });
+
+        // Click outside modal to close
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                UIManager.closeModal(e.target.id);
+            }
+        });
     }
 
     /**
@@ -169,7 +193,7 @@ class TaxApp {
             this.updateUI();
         } catch (error) {
             console.error('Error calculating tax:', error);
-            showNotification('เกิดข้อผิดพลาดในการคำนวณ', 'error');
+            Utils.showNotification('เกิดข้อผิดพลาดในการคำนวณ', 'error');
         }
     }
 
@@ -217,7 +241,7 @@ class TaxApp {
      */
     showChartScreen() {
         UIManager.switchScreen('chartScreen');
-        
+
         // Resize canvases and render charts
         setTimeout(() => {
             ChartManager.resizeAllCanvases();
@@ -230,15 +254,15 @@ class TaxApp {
      */
     saveToHistory() {
         if (!this.currentSummary) {
-            showNotification('ไม่มีการคำนวณที่จะบันทึก', 'warning');
+            Utils.showNotification('ไม่มีการคำนวณที่จะบันทึก', 'warning');
             return;
         }
 
         const success = StorageManager.saveCalculation(this.currentSummary);
         if (success) {
-            showNotification('บันทึกประวัติการคำนวณเรียบร้อย', 'success');
+            Utils.showNotification('บันทึกประวัติการคำนวณเรียบร้อย', 'success');
         } else {
-            showNotification('ไม่สามารถบันทึกประวัติได้', 'error');
+            Utils.showNotification('ไม่สามารถบันทึกประวัติได้', 'error');
         }
     }
 
@@ -257,13 +281,13 @@ class TaxApp {
                 freelance: lastCalc.freelance,
                 merchant: lastCalc.merchant,
                 spouse: lastCalc.allowanceBreakdown?.personal?.spouse > 0,
-                childCount: lastCalc.allowanceBreakdown?.personal?.childOld ? 
+                childCount: lastCalc.allowanceBreakdown?.personal?.childOld ?
                     lastCalc.allowanceBreakdown.personal.childOld / TAX_CONSTANTS.childAllowanceOld : 0,
                 childBorn2018: lastCalc.allowanceBreakdown?.personal?.childNew > 0,
-                childBorn2018Count: lastCalc.allowanceBreakdown?.personal?.childNew ? 
+                childBorn2018Count: lastCalc.allowanceBreakdown?.personal?.childNew ?
                     lastCalc.allowanceBreakdown.personal.childNew / TAX_CONSTANTS.childAllowanceNew : 0,
                 parentCount: lastCalc.allowanceBreakdown?.personal?.parent > 0,
-                parentCountValue: lastCalc.allowanceBreakdown?.personal?.parent ? 
+                parentCountValue: lastCalc.allowanceBreakdown?.personal?.parent ?
                     lastCalc.allowanceBreakdown.personal.parent / TAX_CONSTANTS.parentAllowance : 0,
                 lifeInsurance: lastCalc.allowanceBreakdown?.insurance?.lifeInsurance || 0,
                 healthInsurance: lastCalc.allowanceBreakdown?.insurance?.healthInsurance || 0,
@@ -280,110 +304,37 @@ class TaxApp {
     }
 
     /**
-     * Export to PDF
+     * Export to PDF (Print)
      */
     exportPDF() {
         if (!this.currentSummary) {
-            showNotification('ไม่มีการคำนวณที่จะส่งออก', 'warning');
+            Utils.showNotification('ไม่มีการคำนวณที่จะส่งออก', 'warning');
             return;
         }
 
-        try {
-            const doc = this.generatePDFContent();
-            downloadFile(doc, `tax-calculation-${new Date().getTime()}.txt`, 'text/plain');
-            showNotification('ส่งออกเรียบร้อย', 'success');
-        } catch (error) {
-            console.error('Error exporting PDF:', error);
-            showNotification('ไม่สามารถส่งออกได้', 'error');
-        }
+        // Use browser's native print to PDF
+        window.print();
+
+        // Optional: Show hint about "Save as PDF" if needed, 
+        // but arguably window.print() is self-explanatory on modern devices.
     }
 
-    /**
-     * Generate PDF content
-     */
-    generatePDFContent() {
-        const s = this.currentSummary;
-        const date = formatThaiDateTime(new Date(s.timestamp));
 
-        let content = `
-ภาษีเรื่องง่าย - รายงานการคำนวณภาษี
-=====================================
-
-วันที่: ${date}
-
-รายได้
-------
-เงินเดือน: ${formatCurrency(s.salary)}
-ฟรีแลนซ์: ${formatCurrency(s.freelance)}
-ธุรกิจ: ${formatCurrency(s.merchant)}
-รวมรายได้: ${formatCurrency(s.totalIncome)}
-
-ค่าใช้จ่าย
---------
-ค่าใช้จ่าย 40(1)(2): ${formatCurrency(s.expenseBreakdown.salaryExpense)}
-ค่าใช้จ่าย 40(8): ${formatCurrency(s.expenseBreakdown.merchantExpense)}
-รวมค่าใช้จ่าย: ${formatCurrency(s.expense)}
-
-ค่าลดหย่อน
---------
-ส่วนตัว: ${formatCurrency(s.allowanceBreakdown.personal.personalAllowance)}
-คู่สมรส: ${formatCurrency(s.allowanceBreakdown.personal.spouse)}
-บุตรก่อนปี 2561: ${formatCurrency(s.allowanceBreakdown.personal.childOld)}
-บุตรปี 2561+: ${formatCurrency(s.allowanceBreakdown.personal.childNew)}
-บิดามารดา: ${formatCurrency(s.allowanceBreakdown.personal.parent)}
-ประกันชีวิต: ${formatCurrency(s.allowanceBreakdown.insurance.lifeInsurance)}
-ประกันสุขภาพ: ${formatCurrency(s.allowanceBreakdown.insurance.healthInsurance)}
-ประกันสังคม: ${formatCurrency(s.allowanceBreakdown.insurance.socialSecurity)}
-กองทุน PVD: ${formatCurrency(s.allowanceBreakdown.insurance.pvd)}
-กองทุน RMF: ${formatCurrency(s.allowanceBreakdown.insurance.rmf)}
-กองทุน SSF: ${formatCurrency(s.allowanceBreakdown.insurance.ssf)}
-ดอกเบี้ยบ้าน: ${formatCurrency(s.allowanceBreakdown.housing.homeLoanInterest)}
-รวมค่าลดหย่อน: ${formatCurrency(s.allowance)}
-
-ผลการคำนวณ
----------
-เงินได้สุทธิ: ${formatCurrency(s.netIncome)}
-ภาษีที่ต้องชำระ: ${formatCurrency(s.tax)}
-อัตราภาษีจริง: ${formatPercentage(s.effectiveTaxRate)}
-เงินได้หลังหักภาษี: ${formatCurrency(s.netSalary)}
-
-รายละเอียดภาษีตามช่วง
---------------------`;
-
-        s.taxBreakdown.bracketTaxes.forEach(bt => {
-            const bracket = bt.bracket;
-            const min = formatCurrency(bracket.minNetIncome);
-            const max = bracket.maxNetIncome === Infinity ? 'ขึ้นไป' : formatCurrency(bracket.maxNetIncome);
-            const rate = formatPercentage(bracket.taxRate);
-            const tax = formatCurrency(bt.tax);
-
-            content += `\n${min} - ${max}: ${rate} = ${tax}`;
-        });
-
-        if (s.installments.length > 1) {
-            content += `\n\nการชำระภาษีเป็นงวด\n-----------------`;
-            s.installments.forEach((amount, index) => {
-                content += `\nงวดที่ ${index + 1}: ${formatCurrency(amount)}`;
-            });
-        }
-
-        return content;
-    }
 
     /**
      * Share results
      */
     shareResults() {
         if (!this.currentSummary) {
-            showNotification('ไม่มีการคำนวณที่จะแชร์', 'warning');
+            Utils.showNotification('ไม่มีการคำนวณที่จะแชร์', 'warning');
             return;
         }
 
         const text = `ผลการคำนวณภาษี:
-รายได้รวม: ${formatCurrency(this.currentSummary.totalIncome)}
-เงินได้สุทธิ: ${formatCurrency(this.currentSummary.netIncome)}
-ภาษี: ${formatCurrency(this.currentSummary.tax)}
-เงินได้หลังหักภาษี: ${formatCurrency(this.currentSummary.netSalary)}
+รายได้รวม: ${Utils.formatCurrency(this.currentSummary.totalIncome)}
+เงินได้สุทธิ: ${Utils.formatCurrency(this.currentSummary.netIncome)}
+ภาษี: ${Utils.formatCurrency(this.currentSummary.tax)}
+เงินได้หลังหักภาษี: ${Utils.formatCurrency(this.currentSummary.netSalary)}
 
 คำนวณด้วย: ภาษีเรื่องง่าย`;
 
@@ -394,11 +345,11 @@ class TaxApp {
             }).catch(err => console.error('Error sharing:', err));
         } else {
             // Fallback: copy to clipboard
-            copyToClipboard(text).then(success => {
+            Utils.copyToClipboard(text).then(success => {
                 if (success) {
-                    showNotification('คัดลอกไปยังคลิปบอร์ดแล้ว', 'success');
+                    Utils.showNotification('คัดลอกไปยังคลิปบอร์ดแล้ว', 'success');
                 } else {
-                    showNotification('ไม่สามารถคัดลอกได้', 'error');
+                    Utils.showNotification('ไม่สามารถคัดลอกได้', 'error');
                 }
             });
         }
